@@ -1,1 +1,151 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garage Brain AI</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #10151c;
+  color: #f1f5f9;
+}
+header {
+  background: #1c2733;
+  padding: 24px 16px;
+  text-align: center;
+  border-bottom: 3px solid #f59e0b;
+}
+header h1 { margin: 0; color: #f59e0b; }
+header p { color: #cbd5e1; }
+main {
+  max-width: 700px;
+  margin: auto;
+  padding: 20px;
+}
+.card {
+  background: #1c2733;
+  padding: 20px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  border: 1px solid #344252;
+}
+h2 { color: #f59e0b; }
+input, textarea, button {
+  width: 100%;
+  padding: 13px;
+  margin-top: 10px;
+  border-radius: 7px;
+  font-size: 16px;
+}
+input, textarea {
+  background: #10151c;
+  color: white;
+  border: 1px solid #64748b;
+}
+button {
+  background: #f59e0b;
+  color: #10151c;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+#answer {
+  white-space: pre-wrap;
+  line-height: 1.5;
+  margin-top: 15px;
+}
+footer {
+  text-align: center;
+  padding: 20px;
+  color: #94a3b8;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>GARAGE BRAIN AI</h1>
+<p>Your Garage. Your Builds. Your Brain.</p>
+</header>
+
+<main>
+<section class="card">
+<h2>Vehicle Information</h2>
+<input id="vehicle" placeholder="Year, Make and Model">
+<input id="engine" placeholder="Engine size or code">
+<button onclick="saveVehicle()">Save Vehicle</button>
+<p id="vehicleStatus"></p>
+</section>
+
+<section class="card">
+<h2>Diagnostic Assistant</h2>
+<textarea id="problem" rows="4"
+placeholder="Describe the problem, symptoms or trouble code..."></textarea>
+<button onclick="diagnose()">Analyze Problem</button>
+<div id="answer"></div>
+</section>
+
+<section class="card">
+<h2>Maintenance Notes</h2>
+<textarea id="notes" rows="4"
+placeholder="Record repairs, parts and maintenance..."></textarea>
+<button onclick="saveNotes()">Save Notes</button>
+<p id="notesStatus"></p>
+</section>
+</main>
+
+<footer>
+Garage Brain AI | Built for people who build cars.
+</footer>
+
+<script>
+function saveVehicle() {
+  const vehicle = document.getElementById("vehicle").value;
+  const engine = document.getElementById("engine").value;
+  localStorage.setItem("gb_vehicle", vehicle);
+  localStorage.setItem("gb_engine", engine);
+  document.getElementById("vehicleStatus").textContent =
+    "Vehicle information saved!";
+}
+
+function diagnose() {
+  const problem = document.getElementById("problem").value;
+  const vehicle = localStorage.getItem("gb_vehicle") || "Not specified";
+
+  if (!problem.trim()) {
+    document.getElementById("answer").textContent =
+      "Enter a problem or trouble code first.";
+    return;
+  }
+
+  document.getElementById("answer").textContent =
+    "Vehicle: " + vehicle +
+    "\n\nProblem submitted: " + problem +
+    "\n\nDiagnostic AI connection is not configured yet. " +
+    "The next development step is connecting a real AI diagnostic engine.";
+}
+
+function saveNotes() {
+  localStorage.setItem(
+    "gb_notes",
+    document.getElementById("notes").value
+  );
+  document.getElementById("notesStatus").textContent =
+    "Maintenance notes saved!";
+}
+
+document.getElementById("vehicle").value =
+  localStorage.getItem("gb_vehicle") || "";
+document.getElementById("engine").value =
+  localStorage.getItem("gb_engine") || "";
+document.getElementById("notes").value =
+  localStorage.getItem("gb_notes") || "";
+</script>
+
+</body>
+</html>
+
