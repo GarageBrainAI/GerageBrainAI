@@ -12,6 +12,141 @@ body {
   font-family: Arial, sans-serif;
   background: #10151c;
   color: #f1f5f9;
+  
+<section class="card" id="code-lookup">
+  <h2>OBD-II Trouble Code Lookup</h2>
+  <p>Enter a diagnostic trouble code to find its meaning and possible causes.</p>
+
+  <input
+    type="text"
+    id="troubleCode"
+    placeholder="Example: P0301"
+    maxlength="5"
+  >
+
+  <button onclick="lookupCode()">Look Up Code</button>
+
+  <div id="codeResult" aria-live="polite"></div>
+</section>
+
+<script>
+const troubleCodes = {
+  P0300: {
+    description: "Random or Multiple Cylinder Misfire Detected",
+    causes: [
+      "Worn spark plugs",
+      "Faulty ignition coils",
+      "Fuel delivery problems",
+      "Vacuum leaks",
+      "Low compression"
+    ]
+  },
+  P0301: {
+    description: "Cylinder 1 Misfire Detected",
+    causes: [
+      "Faulty spark plug",
+      "Bad ignition coil",
+      "Faulty fuel injector",
+      "Vacuum leak",
+      "Low cylinder compression"
+    ]
+  },
+  P0302: {
+    description: "Cylinder 2 Misfire Detected",
+    causes: [
+      "Worn spark plug",
+      "Faulty ignition coil",
+      "Fuel injector problem",
+      "Low compression"
+    ]
+  },
+  P0171: {
+    description: "System Too Lean Bank 1",
+    causes: [
+      "Vacuum leak",
+      "Low fuel pressure",
+      "Dirty or faulty MAF sensor",
+      "Exhaust leak before oxygen sensor"
+    ]
+  },
+  P0172: {
+    description: "System Too Rich Bank 1",
+    causes: [
+      "Leaking fuel injector",
+      "Excessive fuel pressure",
+      "Faulty MAF sensor",
+      "Faulty oxygen sensor"
+    ]
+  },
+  P0420: {
+    description: "Catalyst System Efficiency Below Threshold Bank 1",
+    causes: [
+      "Degraded catalytic converter",
+      "Exhaust leak",
+      "Faulty oxygen sensor",
+      "Engine misfire or fuel mixture problem"
+    ]
+  },
+  P0430: {
+    description: "Catalyst System Efficiency Below Threshold Bank 2",
+    causes: [
+      "Degraded catalytic converter",
+      "Exhaust leak",
+      "Faulty oxygen sensor",
+      "Engine performance problem"
+    ]
+  },
+  P0440: {
+    description: "Evaporative Emission System Malfunction",
+    causes: [
+      "Loose or faulty gas cap",
+      "Damaged EVAP hoses",
+      "Faulty purge valve",
+      "Faulty vent valve"
+    ]
+  },
+  P0455: {
+    description: "EVAP System Large Leak Detected",
+    causes: [
+      "Loose or missing gas cap",
+      "Disconnected EVAP hose",
+      "Cracked vapor line",
+      "Faulty vent valve"
+    ]
+  }
+};
+
+function lookupCode() {
+  const input = document.getElementById("troubleCode");
+  const result = document.getElementById("codeResult");
+  const code = input.value.trim().toUpperCase();
+
+  if (!code) {
+    result.innerHTML = "<p>Please enter a trouble code.</p>";
+    return;
+  }
+
+  const data = troubleCodes[code];
+
+  if (!data) {
+    result.innerHTML =
+      "<h3>" + code + "</h3>" +
+      "<p>Code not currently in our starter database. More codes coming soon.</p>";
+    return;
+  }
+
+  result.innerHTML =
+    "<h3>" + code + "</h3>" +
+    "<p><strong>Description:</strong> " +
+    data.description + "</p>" +
+    "<h4>Possible Causes:</h4>" +
+    "<ul>" +
+    data.causes.map(cause => "<li>" + cause + "</li>").join("") +
+    "</ul>" +
+    "<p><strong>Important:</strong> These are possible causes, not confirmed failures. Perform diagnostic tests before replacing parts.</p>";
+}
+</script>
+
 }
 header {
   background: #1c2733;
