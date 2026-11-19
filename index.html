@@ -1,286 +1,329 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Garage Brain AI</title>
+<meta name="theme-color" content="#1769aa">
+<title>Garage Brain AI | Automotive Diagnostic Workbench</title>
 <style>
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #10151c;
-  color: #f1f5f9;
-  
-<section class="card" id="code-lookup">
-  <h2>OBD-II Trouble Code Lookup</h2>
-  <p>Enter a diagnostic trouble code to find its meaning and possible causes.</p>
-
-  <input
-    type="text"
-    id="troubleCode"
-    placeholder="Example: P0301"
-    maxlength="5"
-  >
-
-  <button onclick="lookupCode()">Look Up Code</button>
-
-  <div id="codeResult" aria-live="polite"></div>
-</section>
-
-<script>
-const troubleCodes = {
-  P0300: {
-    description: "Random or Multiple Cylinder Misfire Detected",
-    causes: [
-      "Worn spark plugs",
-      "Faulty ignition coils",
-      "Fuel delivery problems",
-      "Vacuum leaks",
-      "Low compression"
-    ]
-  },
-  P0301: {
-    description: "Cylinder 1 Misfire Detected",
-    causes: [
-      "Faulty spark plug",
-      "Bad ignition coil",
-      "Faulty fuel injector",
-      "Vacuum leak",
-      "Low cylinder compression"
-    ]
-  },
-  P0302: {
-    description: "Cylinder 2 Misfire Detected",
-    causes: [
-      "Worn spark plug",
-      "Faulty ignition coil",
-      "Fuel injector problem",
-      "Low compression"
-    ]
-  },
-  P0171: {
-    description: "System Too Lean Bank 1",
-    causes: [
-      "Vacuum leak",
-      "Low fuel pressure",
-      "Dirty or faulty MAF sensor",
-      "Exhaust leak before oxygen sensor"
-    ]
-  },
-  P0172: {
-    description: "System Too Rich Bank 1",
-    causes: [
-      "Leaking fuel injector",
-      "Excessive fuel pressure",
-      "Faulty MAF sensor",
-      "Faulty oxygen sensor"
-    ]
-  },
-  P0420: {
-    description: "Catalyst System Efficiency Below Threshold Bank 1",
-    causes: [
-      "Degraded catalytic converter",
-      "Exhaust leak",
-      "Faulty oxygen sensor",
-      "Engine misfire or fuel mixture problem"
-    ]
-  },
-  P0430: {
-    description: "Catalyst System Efficiency Below Threshold Bank 2",
-    causes: [
-      "Degraded catalytic converter",
-      "Exhaust leak",
-      "Faulty oxygen sensor",
-      "Engine performance problem"
-    ]
-  },
-  P0440: {
-    description: "Evaporative Emission System Malfunction",
-    causes: [
-      "Loose or faulty gas cap",
-      "Damaged EVAP hoses",
-      "Faulty purge valve",
-      "Faulty vent valve"
-    ]
-  },
-  P0455: {
-    description: "EVAP System Large Leak Detected",
-    causes: [
-      "Loose or missing gas cap",
-      "Disconnected EVAP hose",
-      "Cracked vapor line",
-      "Faulty vent valve"
-    ]
-  }
-};
-
-function lookupCode() {
-  const input = document.getElementById("troubleCode");
-  const result = document.getElementById("codeResult");
-  const code = input.value.trim().toUpperCase();
-
-  if (!code) {
-    result.innerHTML = "<p>Please enter a trouble code.</p>";
-    return;
-  }
-
-  const data = troubleCodes[code];
-
-  if (!data) {
-    result.innerHTML =
-      "<h3>" + code + "</h3>" +
-      "<p>Code not currently in our starter database. More codes coming soon.</p>";
-    return;
-  }
-
-  result.innerHTML =
-    "<h3>" + code + "</h3>" +
-    "<p><strong>Description:</strong> " +
-    data.description + "</p>" +
-    "<h4>Possible Causes:</h4>" +
-    "<ul>" +
-    data.causes.map(cause => "<li>" + cause + "</li>").join("") +
-    "</ul>" +
-    "<p><strong>Important:</strong> These are possible causes, not confirmed failures. Perform diagnostic tests before replacing parts.</p>";
+:root{
+  --blue:#1769aa;--blue-dark:#104d80;--green:#16834a;--red:#c93636;
+  --ink:#172433;--muted:#64748b;--line:#dbe3ec;--panel:#fff;--soft:#f1f5f9;
+  --shadow:0 8px 28px rgba(23,36,51,.08);--radius:16px
 }
-</script>
-
-}
-header {
-  background: #1c2733;
-  padding: 24px 16px;
-  text-align: center;
-  border-bottom: 3px solid #f59e0b;
-}
-header h1 { margin: 0; color: #f59e0b; }
-header p { color: #cbd5e1; }
-main {
-  max-width: 700px;
-  margin: auto;
-  padding: 20px;
-}
-.card {
-  background: #1c2733;
-  padding: 20px;
-  margin-bottom: 16px;
-  border-radius: 12px;
-  border: 1px solid #344252;
-}
-h2 { color: #f59e0b; }
-input, textarea, button {
-  width: 100%;
-  padding: 13px;
-  margin-top: 10px;
-  border-radius: 7px;
-  font-size: 16px;
-}
-input, textarea {
-  background: #10151c;
-  color: white;
-  border: 1px solid #64748b;
-}
-button {
-  background: #f59e0b;
-  color: #10151c;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-}
-#answer {
-  white-space: pre-wrap;
-  line-height: 1.5;
-  margin-top: 15px;
-}
-footer {
-  text-align: center;
-  padding: 20px;
-  color: #94a3b8;
-}
+*{box-sizing:border-box}
+body{margin:0;background:#f7f9fc;color:var(--ink);font-family:Inter,Arial,sans-serif;line-height:1.5}
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:5}
+.topbar{max-width:1180px;margin:auto;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:44px;height:44px;border-radius:13px;background:linear-gradient(135deg,var(--blue),var(--green));display:grid;place-items:center;color:white;font-size:23px;font-weight:900}
+h1{font-size:1.25rem;line-height:1.1;margin:0;letter-spacing:.02em}
+.tagline{font-size:.8rem;color:var(--muted);margin-top:4px}
+.status{font-size:.78rem;color:var(--green);font-weight:700;background:#e9f7ef;padding:7px 10px;border-radius:99px}
+main{max-width:1180px;margin:26px auto;padding:0 20px 50px}
+.hero{background:linear-gradient(115deg,#eaf3fb,#eef8f2);border:1px solid #dce9f1;border-radius:20px;padding:24px;margin-bottom:20px}
+.hero h2{font-size:1.55rem;margin:0 0 6px;color:var(--blue-dark)}
+.hero p{margin:0;color:#475569;max-width:760px}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);min-width:0}
+.span-4{grid-column:span 4}.span-5{grid-column:span 5}.span-7{grid-column:span 7}.span-8{grid-column:span 8}.span-12{grid-column:span 12}
+.card h3{margin:0 0 14px;font-size:1.05rem;color:var(--blue-dark)}
+.sub{color:var(--muted);font-size:.88rem;margin:-8px 0 14px}
+label{display:block;font-size:.84rem;font-weight:700;margin:12px 0 5px}
+input,textarea,select{width:100%;padding:12px 13px;border:1px solid #cbd5e1;border-radius:10px;background:#fff;color:var(--ink);font:inherit}
+textarea{resize:vertical;min-height:100px}
+input:focus,textarea:focus,select:focus{outline:3px solid #bfdbfe;border-color:var(--blue)}
+button{border:0;border-radius:10px;padding:11px 15px;font:inherit;font-weight:750;cursor:pointer;transition:.15s}
+button:hover{filter:brightness(.96);transform:translateY(-1px)}
+.primary{background:var(--blue);color:#fff}.success{background:var(--green);color:#fff}
+.secondary{background:#e8f1f9;color:var(--blue-dark)}.danger{background:#fdecec;color:var(--red)}
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px}
+.result{margin-top:15px;padding:14px;border-radius:12px;background:var(--soft);border:1px solid var(--line);white-space:pre-wrap}
+.result.good{background:#edf8f1;border-color:#b7e1c7}.result.warn{background:#fff7ed;border-color:#fed7aa}
+.result.bad{background:#fff0f0;border-color:#fecaca}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.kpi{padding:12px;background:var(--soft);border-radius:12px}.kpi strong{display:block;color:var(--blue);font-size:1.1rem}
+.kpi span{font-size:.75rem;color:var(--muted)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.tab{background:#e9eef5;color:#475569}.tab.active{background:var(--blue);color:#fff}
+.panel[hidden]{display:none}
+.record{padding:12px 0;border-bottom:1px solid var(--line)}
+.record:last-child{border-bottom:0}.record strong{display:block}
+.record small{color:var(--muted)}
+.pill{display:inline-block;padding:3px 8px;border-radius:99px;font-size:.72rem;font-weight:800;background:#e8f1f9;color:var(--blue)}
+.warning{color:var(--red);font-weight:700}
+footer{text-align:center;color:var(--muted);font-size:.82rem;padding:24px}
+@media(max-width:850px){.span-4,.span-5,.span-7,.span-8{grid-column:span 12}.topbar{padding:12px 16px}main{margin-top:16px;padding:0 14px 35px}.hero{padding:19px}}
+@media(max-width:480px){.status{display:none}.kpis{grid-template-columns:1fr 1fr}.card{padding:16px}.hero h2{font-size:1.3rem}}
 </style>
 </head>
 <body>
-
 <header>
-<h1>GARAGE BRAIN AI</h1>
-<p>Your Garage. Your Builds. Your Brain.</p>
+  <div class="topbar">
+    <div class="brand"><div class="logo">GB</div><div><h1>GARAGE BRAIN AI</h1><div class="tagline">Your Garage. Your Builds. Your Brain.</div></div></div>
+    <div class="status">● LOCAL WORKBENCH ACTIVE</div>
+  </div>
 </header>
-
 <main>
-<section class="card">
-<h2>Vehicle Information</h2>
-<input id="vehicle" placeholder="Year, Make and Model">
-<input id="engine" placeholder="Engine size or code">
-<button onclick="saveVehicle()">Save Vehicle</button>
-<p id="vehicleStatus"></p>
-</section>
+  <section class="hero">
+    <h2>Automotive Diagnostic Workbench</h2>
+    <p>Keep vehicle details, investigate trouble codes, work through symptom-based checks, and track repairs. Built for technicians and people who actually turn wrenches.</p>
+    <div class="kpis">
+      <div class="kpi"><strong id="vehicleKpi">No vehicle</strong><span>Selected vehicle</span></div>
+      <div class="kpi"><strong id="recordKpi">0</strong><span>Saved records</span></div>
+      <div class="kpi"><strong>Offline</strong><span>Core tools run locally</span></div>
+    </div>
+  </section>
 
-<section class="card">
-<h2>Diagnostic Assistant</h2>
-<textarea id="problem" rows="4"
-placeholder="Describe the problem, symptoms or trouble code..."></textarea>
-<button onclick="diagnose()">Analyze Problem</button>
-<div id="answer"></div>
-</section>
+  <nav class="tabs" aria-label="Workbench sections">
+    <button class="tab active" data-tab="garage">Vehicle</button>
+    <button class="tab" data-tab="diagnostics">Diagnostics</button>
+    <button class="tab" data-tab="codes">OBD-II Codes</button>
+    <button class="tab" data-tab="aftermarket">Aftermarket</button>
+    <button class="tab" data-tab="records">Repair History</button>
+  </nav>
 
-<section class="card">
-<h2>Maintenance Notes</h2>
-<textarea id="notes" rows="4"
-placeholder="Record repairs, parts and maintenance..."></textarea>
-<button onclick="saveNotes()">Save Notes</button>
-<p id="notesStatus"></p>
-</section>
+  <section class="panel" id="garage">
+    <div class="grid">
+      <article class="card span-7">
+        <h3>Vehicle Profile</h3><p class="sub">Your original saved vehicle fields are retained.</p>
+        <label for="vehicle">Year, make and model</label><input id="vehicle" placeholder="1992 Honda Accord">
+        <label for="engine">Engine size or code</label><input id="engine" placeholder="F22A1, F22A6, 2.2L, etc.">
+        <label for="mileage">Current mileage (optional)</label><input id="mileage" inputmode="numeric" placeholder="185000">
+        <div class="actions"><button class="success" id="saveVehicle">Save Vehicle</button><button class="secondary" id="clearVehicle">Clear Fields</button></div>
+        <div id="vehicleStatus" class="result" aria-live="polite">Vehicle details are stored in this browser on this device.</div>
+      </article>
+      <article class="card span-5">
+        <h3>Quick Start</h3>
+        <p>Choose a tool to begin. Garage Brain currently uses built-in rules and reference notes, not a connected live AI service.</p>
+        <div class="actions"><button class="primary" data-goto="diagnostics">Diagnose a symptom</button><button class="secondary" data-goto="codes">Look up a code</button></div>
+        <div class="result warn">Safety: Use a service manual and proper test equipment. Never work under a vehicle supported only by a jack. Airbag, hybrid/EV high-voltage, fuel, and moving-engine systems require the correct procedures.</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="panel" id="diagnostics" hidden>
+    <div class="grid">
+      <article class="card span-7">
+        <h3>Symptom-Based Diagnostic Assistant</h3><p class="sub">Select the closest symptom. The result is a starting test path, not a confirmed diagnosis.</p>
+        <label for="symptom">What is the vehicle doing?</label>
+        <select id="symptom">
+          <option value="">Choose a symptom</option>
+          <option value="crank-no-start">Cranks normally but will not start</option>
+          <option value="no-crank">Does not crank</option>
+          <option value="slow-crank">Cranks slowly</option>
+          <option value="starts-stalls">Starts, then immediately stalls</option>
+          <option value="misfire">Rough running or misfire</option>
+          <option value="overheat">Overheating</option>
+          <option value="charging">Battery light / charging problem</option>
+          <option value="noise">Unusual mechanical noise</option>
+        </select>
+        <label for="symptomDetails">Additional details (optional)</label>
+        <textarea id="symptomDetails" placeholder="When does it happen? Any warning lights, recent repairs, noises, codes, or modifications?"></textarea>
+        <button class="primary" id="runDiagnosis">Build Test Plan</button>
+        <div id="diagnosticResult" class="result" aria-live="polite">Your diagnostic test plan will appear here.</div>
+      </article>
+      <article class="card span-5">
+        <h3>Diagnostic Method</h3>
+        <ol>
+          <li>Verify the complaint and operating conditions.</li>
+          <li>Check battery voltage, fuses, grounds, and connectors where relevant.</li>
+          <li>Scan all available modules and record codes before clearing anything.</li>
+          <li>Test the circuit or system before replacing parts.</li>
+          <li>Confirm the repair under the original failure conditions.</li>
+        </ol>
+        <div class="result warn">Do not replace a component based only on a trouble code. A code identifies a detected condition or circuit, not automatically a failed part.</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="panel" id="codes" hidden>
+    <div class="grid">
+      <article class="card span-5">
+        <h3>OBD-II Code Lookup</h3><p class="sub">Starter reference for common generic powertrain codes.</p>
+        <label for="codeInput">Trouble code</label><input id="codeInput" placeholder="Example: P0302" autocapitalize="characters">
+        <button class="primary" id="lookupCode">Look Up Code</button>
+        <div id="codeResult" class="result" aria-live="polite">Enter a code such as P0300, P0302, P0171, or P0420.</div>
+      </article>
+      <article class="card span-7">
+        <h3>Important Code Notes</h3>
+        <p>Generic OBD-II definitions are only a starting point. Manufacturer-specific descriptions, enabling conditions, wiring diagrams, pinpoint tests, and service bulletins vary by year, make, model, engine, and module.</p>
+        <p>Record freeze-frame data, fuel trims, misfire counters, and related codes before clearing codes. A basic generic scanner may not access ABS, SRS, transmission, or body modules.</p>
+        <div class="pill">Starter database, not a complete repair database</div>
+      </article>
+    </div>
+  </section>
+
+  <section class="panel" id="aftermarket" hidden>
+    <div class="grid">
+      <article class="card span-7">
+        <h3>Aftermarket Installation Troubleshooting</h3>
+        <label for="modType">System</label>
+        <select id="modType">
+          <option value="">Choose a system</option>
+          <option value="audio">Audio / amplifier / speakers</option>
+          <option value="lighting">LED lighting / underglow</option>
+          <option value="wiring">Custom wiring / relay circuits</option>
+          <option value="suspension">Suspension / coilovers / air ride</option>
+          <option value="engine">Engine / intake / fuel modifications</option>
+          <option value="charging">Alternator / upgraded electrical load</option>
+        </select>
+        <label for="modProblem">What is happening?</label>
+        <textarea id="modProblem" placeholder="Example: amplifier turns off when bass hits, or fuel pump has no power while cranking."></textarea>
+        <button class="primary" id="modPlan">Build Troubleshooting Plan</button>
+        <div id="modResult" class="result" aria-live="polite">Choose a system and describe the fault.</div>
+      </article>
+      <article class="card span-5">
+        <h3>Custom Wiring Checklist</h3>
+        <ul>
+          <li>Identify the actual load current and wire gauge.</li>
+          <li>Fuse the circuit close to its power source.</li>
+          <li>Use a relay when the control circuit should not carry the load.</li>
+          <li>Verify ground quality with a voltage-drop test under load.</li>
+          <li>Protect wiring from heat, abrasion, water, and moving parts.</li>
+          <li>Document pinouts, fuse sizes, and wire colors.</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="panel" id="records" hidden>
+    <div class="grid">
+      <article class="card span-5">
+        <h3>Maintenance & Repair Notes</h3>
+        <label for="noteType">Record type</label>
+        <select id="noteType"><option>Maintenance</option><option>Repair</option><option>Diagnostic test</option><option>Parts installed</option><option>Modification</option></select>
+        <label for="notes">Notes</label><textarea id="notes" placeholder="Date, mileage, work performed, parts, test results..."></textarea>
+        <button class="success" id="saveNotes">Save Record</button>
+        <div id="notesStatus" class="result" aria-live="polite">Records are stored locally in this browser.</div>
+      </article>
+      <article class="card span-7">
+        <h3>Saved History</h3>
+        <div id="historyList"><p class="sub">No records saved yet.</p></div>
+        <div class="actions"><button class="secondary" id="exportData">Export Backup (JSON)</button><button class="danger" id="deleteHistory">Delete History</button></div>
+      </article>
+    </div>
+  </section>
 </main>
-
-<footer>
-Garage Brain AI | Built for people who build cars.
-</footer>
+<footer>Garage Brain AI · Built for people who build cars · Local data stays in this browser</footer>
 
 <script>
-function saveVehicle() {
-  const vehicle = document.getElementById("vehicle").value;
-  const engine = document.getElementById("engine").value;
-  localStorage.setItem("gb_vehicle", vehicle);
-  localStorage.setItem("gb_engine", engine);
-  document.getElementById("vehicleStatus").textContent =
-    "Vehicle information saved!";
+"use strict";
+const $ = id => document.getElementById(id);
+const STORAGE = {
+  vehicle:"gb_vehicle", engine:"gb_engine", notes:"gb_notes",
+  mileage:"gb_mileage", history:"gb_history"
+};
+function read(key, fallback=""){try{return localStorage.getItem(key) ?? fallback}catch(e){return fallback}}
+function write(key,value){try{localStorage.setItem(key,value);return true}catch(e){return false}}
+function getHistory(){try{return JSON.parse(read(STORAGE.history,"[]")) || []}catch(e){return []}}
+function setHistory(items){write(STORAGE.history,JSON.stringify(items));updateStats()}
+function safeText(value){return String(value ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function updateStats(){
+  const v=read(STORAGE.vehicle,"");
+  $("vehicleKpi").textContent=v || "No vehicle";
+  $("recordKpi").textContent=getHistory().length;
 }
-
-function diagnose() {
-  const problem = document.getElementById("problem").value;
-  const vehicle = localStorage.getItem("gb_vehicle") || "Not specified";
-
-  if (!problem.trim()) {
-    document.getElementById("answer").textContent =
-      "Enter a problem or trouble code first.";
-    return;
-  }
-
-  document.getElementById("answer").textContent =
-    "Vehicle: " + vehicle +
-    "\n\nProblem submitted: " + problem +
-    "\n\nDiagnostic AI connection is not configured yet. " +
-    "The next development step is connecting a real AI diagnostic engine.";
+function showTab(id){
+  document.querySelectorAll(".panel").forEach(p=>p.hidden=p.id!==id);
+  document.querySelectorAll(".tab").forEach(b=>b.classList.toggle("active",b.dataset.tab===id));
 }
+document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.tab)));
+document.querySelectorAll("[data-goto]").forEach(b=>b.addEventListener("click",()=>showTab(b.dataset.goto)));
 
-function saveNotes() {
-  localStorage.setItem(
-    "gb_notes",
-    document.getElementById("notes").value
-  );
-  document.getElementById("notesStatus").textContent =
-    "Maintenance notes saved!";
+$("saveVehicle").addEventListener("click",()=>{
+  const vehicle=$("vehicle").value.trim(),engine=$("engine").value.trim(),mileage=$("mileage").value.trim();
+  if(!vehicle){$("vehicleStatus").textContent="Enter at least the year, make, and model.";return}
+  const ok=write(STORAGE.vehicle,vehicle)&&write(STORAGE.engine,engine)&&write(STORAGE.mileage,mileage);
+  $("vehicleStatus").textContent=ok?"Vehicle profile saved on this device.":"Browser storage is unavailable. Check browser privacy settings.";
+  updateStats();
+});
+$("clearVehicle").addEventListener("click",()=>{$("vehicle").value="";$("engine").value="";$("mileage").value=""});
+function loadProfile(){
+  $("vehicle").value=read(STORAGE.vehicle);$("engine").value=read(STORAGE.engine);
+  $("mileage").value=read(STORAGE.mileage);$("notes").value=read(STORAGE.notes);
 }
-
-document.getElementById("vehicle").value =
-  localStorage.getItem("gb_vehicle") || "";
-document.getElementById("engine").value =
-  localStorage.getItem("gb_engine") || "";
-document.getElementById("notes").value =
-  localStorage.getItem("gb_notes") || "";
+const diagnosticPlans={
+ "crank-no-start":{title:"Cranks normally but will not start",steps:[
+  "Confirm battery voltage stays adequate while cranking and engine speed is seen by the scan tool, if available.",
+  "Check for spark with an approved spark tester. Keep ignition sparks away from fuel vapors.",
+  "Check injector pulse with a noid light or scope using the correct procedure.",
+  "Check fuel pressure and volume against the exact service specification. Do not assume pump noise proves pressure.",
+  "Verify compression and cam/crank timing if spark, injector control, and fuel delivery are present.",
+  "Check immobilizer/security indicator and relevant power, grounds, fuses, and relay control."
+ ],note:"If this is the 1992 Honda Accord previously discussed, identify the exact engine and fuel/ignition system before using a wiring diagram. A pump that runs only when a relay is manually energized points toward a control/power-feed investigation, not automatic proof the pump is bad."},
+ "no-crank":{title:"No crank",steps:["Measure battery voltage at rest and during a start request.","Inspect battery terminals, engine grounds, and main power connections; perform voltage-drop tests under load.","Check starter fuse/fusible link and starter relay control.","Verify park/neutral or clutch interlock input, then test ignition-switch start signal.","Check for voltage at the starter solenoid S terminal during a start request. Follow the vehicle wiring diagram."],note:"Keep the vehicle secured in Park/Neutral with the parking brake applied. Do not bypass safety interlocks as a repair."},
+ "slow-crank":{title:"Slow cranking",steps:["Load-test the battery and check state of charge.","Clean and tighten battery terminals and engine/body grounds.","Voltage-drop test positive cable and ground side while cranking.","Check starter current draw and starter condition.","If electrical tests pass, check for mechanical drag or incorrect oil viscosity."],note:"A voltage reading without a load test can miss a weak battery or high-resistance connection."},
+ "starts-stalls":{title:"Starts then stalls",steps:["Scan all modules and note security/immobilizer warnings.","Check fuel pressure during the stall, not only key-on.","Inspect intake ducting and vacuum leaks; verify throttle body and idle-air controls are configured correctly.","Check crank/cam signals and engine data during the stall.","Review recent repairs, aftermarket wiring, and anti-theft installations."],note:"Do not adjust the throttle stop to hide an underlying air, fuel, or control problem."},
+ "misfire":{title:"Rough running or misfire",steps:["Record all codes and freeze-frame data; identify which cylinder(s) misfire.","Inspect plugs, coils, boots, connectors, and wiring.","Perform a controlled coil/injector swap only where appropriate and see whether the fault follows.","Check fuel trim, injector operation, vacuum leaks, and fuel pressure.","Perform compression and leak-down tests if ignition and fuel checks do not explain it."],note:"A P030x code identifies a cylinder misfire. It does not prove the coil or spark plug is defective."},
+ "overheat":{title:"Overheating",steps:["Stop driving if temperature is rising into the danger range; let the engine cool completely.","Never remove a radiator cap while hot or pressurized.","When cold, check coolant level, leaks, belt condition, and fan operation.","Use the correct pressure test and verify thermostat, radiator flow, and water-pump operation.","Check for combustion gases in coolant if symptoms indicate a head-gasket or cylinder-head issue."],note:"Do not open a hot cooling system. Severe overheating can damage the engine quickly."},
+ "charging":{title:"Charging system fault",steps:["Measure battery voltage with engine off, then running; compare with the vehicle's specified charging strategy.","Inspect belt, battery terminals, alternator connections, and grounds.","Measure alternator output and voltage drop on B+ and ground under electrical load.","Check alternator control/field wiring and battery sensor data where equipped.","Load-test the battery and inspect for excessive key-off draw if the battery goes flat parked."],note:"Modern smart-charging systems do not always hold one fixed charging voltage. Use vehicle-specific specifications."},
+ "noise":{title:"Unusual mechanical noise",steps:["Describe the sound: knock, tick, squeal, grind, hum, or rattle; note cold/hot and engine-speed relationship.","Check fluid levels and visible belt, pulley, mount, exhaust, and heat-shield issues.","Use a safe stethoscope or isolation procedure; keep tools, hair, and clothing clear of moving parts.","If there is a deep knock, oil-pressure warning, or grinding, shut the engine off and investigate before running again.","Check service information and inspect the suspected system before replacing parts."],note:"A noise description alone cannot identify a failed part. Stop operation if continued running could cause damage or injury."}
+};
+$("runDiagnosis").addEventListener("click",()=>{
+  const key=$("symptom").value,details=$("symptomDetails").value.trim(),plan=diagnosticPlans[key];
+  if(!plan){$("diagnosticResult").textContent="Choose a symptom first.";return}
+  const text=plan.title+"\n\nRecommended test sequence:\n"+plan.steps.map((s,i)=>(i+1)+". "+s).join("\n")+"\n\nImportant: "+plan.note+(details?"\n\nYour additional notes: "+details:"");
+  $("diagnosticResult").textContent=text;$("diagnosticResult").className="result warn";
+});
+const codeDB={
+ P0101:["Mass or Volume Air Flow Circuit Range/Performance","Inspect intake ducting for leaks or restriction; check MAF contamination, connector condition, power/ground, and scan data. Verify engine-specific test values."],
+ P0113:["Intake Air Temperature Sensor 1 Circuit High Input","Inspect IAT sensor connector and wiring for an open circuit; compare scan-tool temperature to ambient when cold. Sensor design may be integrated with the MAF."],
+ P0171:["System Too Lean (Bank 1)","Check for intake/vacuum leaks, unmetered air, exhaust leaks ahead of the sensor, fuel pressure/volume, injector restriction, and fuel-trim patterns."],
+ P0172:["System Too Rich (Bank 1)","Check fuel pressure, leaking injectors, purge valve, air measurement, coolant-temperature data, and fuel-trim patterns."],
+ P0300:["Random/Multiple Cylinder Misfire Detected","Review freeze-frame and misfire counters; inspect ignition, fuel delivery, intake leaks, compression, and mechanical timing."],
+ P0301:["Cylinder 1 Misfire Detected","Inspect cylinder 1 ignition and injector circuits; compare with other cylinders, then verify compression and leak-down if needed."],
+ P0302:["Cylinder 2 Misfire Detected","Inspect cylinder 2 ignition and injector circuits; compare with other cylinders, then verify compression and leak-down if needed."],
+ P0303:["Cylinder 3 Misfire Detected","Inspect cylinder 3 ignition and injector circuits; compare with other cylinders, then verify compression and leak-down if needed."],
+ P0304:["Cylinder 4 Misfire Detected","Inspect cylinder 4 ignition and injector circuits; compare with other cylinders, then verify compression and leak-down if needed."],
+ P0420:["Catalyst System Efficiency Below Threshold (Bank 1)","Check for exhaust leaks, misfires, fuel-control problems, and sensor operation. Confirm catalyst performance with the correct service procedure before condemning the converter."],
+ P0442:["EVAP System Small Leak Detected","Inspect fuel cap/seal, EVAP hoses, purge/vent valves, and canister connections. A smoke test may be needed."],
+ P0455:["EVAP System Large Leak Detected","Inspect fuel cap, disconnected/damaged EVAP hoses, vent and purge valves, and fuel-tank pressure sensor data."],
+ P0505:["Idle Control System Malfunction","Inspect vacuum leaks, throttle body, idle-air control system, wiring, and base-idle procedures. Electronic throttle systems use different procedures."],
+ P0700:["Transmission Control System (MIL Request)","This is generally an indication the transmission controller requested the MIL. Retrieve transmission-module codes with a capable scan tool; P0700 alone is not the root fault."]
+};
+$("lookupCode").addEventListener("click",()=>{
+  const code=$("codeInput").value.trim().toUpperCase().replace(/\s+/g,"");
+  if(!/^[PBCU][0-9A-F]{4}$/.test(code)){$("codeResult").textContent="Enter a valid five-character OBD-II code, such as P0302.";return}
+  const item=codeDB[code];
+  $("codeResult").textContent=item?code+" — "+item[0]+"\n\nSuggested checks:\n"+item[1]:"No entry in this starter database for "+code+". Use the vehicle manufacturer's service information and a scan tool that can access the relevant module. The code may be manufacturer-specific.";
+  $("codeResult").className="result "+(item?"warn":"");
+});
+const modPlans={
+ audio:["Verify battery voltage and amplifier ground under load; perform a voltage-drop test.","Check the main power fuse near the battery and the amplifier fuse.","Confirm remote turn-on voltage remains present when the fault occurs.","Check speaker impedance and wiring for shorts; disconnect speaker channels methodically.","Confirm amplifier ventilation and gain/crossover setup."],
+ lighting:["Verify supply polarity, fuse rating, and ground integrity.","Check current draw and wire gauge; do not exceed circuit or switch ratings.","Use a correctly rated relay and fuse for high-current loads.","Inspect connectors for water intrusion, heat damage, and poor crimps.","Check for backfeed into factory lighting or body-control circuits."],
+ wiring:["Draw the circuit and identify source, load, control, and ground.","Fuse the power feed close to the source and size wire for current and length.","Check relay terminal numbering and coil suppression polarity where applicable.","Voltage-drop test power and ground under actual load.","Protect routing from heat, sharp edges, vibration, and moving components."],
+ suspension:["Verify correct part application, installation orientation, and torque specifications.","Inspect tire clearance, brake hoses, ABS wires, and CV joints through full steering and suspension travel.","Check ride height, alignment, bump travel, and spring seating.","Inspect for contact marks, loose hardware, and binding.","Use proper support stands and follow manufacturer torque procedures."],
+ engine:["Verify the exact engine, ECU, sensor setup, and calibration requirements.","Check for intake/exhaust leaks and confirm sensor wiring/pinouts.","Measure fuel pressure and injector compatibility against the setup.","Log air/fuel ratio, ignition timing, knock data, and fuel trims with suitable equipment.","Confirm tune safety under controlled conditions; avoid hard pulls until verified."],
+ charging:["Measure alternator output and voltage drop with the added load operating.","Calculate total current draw and compare with alternator output at idle and cruise RPM.","Inspect charge cable gauge, fuse protection, grounds, and battery condition.","Check belt condition, pulley alignment, and alternator temperature.","Use vehicle-specific smart-charging diagnostics where applicable."]
+};
+$("modPlan").addEventListener("click",()=>{
+  const key=$("modType").value,problem=$("modProblem").value.trim();
+  if(!key){$("modResult").textContent="Choose an aftermarket system first.";return}
+  $("modResult").textContent="System: "+$("modType").selectedOptions[0].text+"\n\nTroubleshooting sequence:\n"+modPlans[key].map((s,i)=>(i+1)+". "+s).join("\n")+(problem?"\n\nReported issue: "+problem:"");
+  $("modResult").className="result warn";
+});
+function renderHistory(){
+  const items=getHistory();
+  $("historyList").innerHTML=items.length?items.slice().reverse().map(item=>'<div class="record"><strong>'+safeText(item.type)+' · '+safeText(item.vehicle||"Vehicle not specified")+'</strong><small>'+safeText(item.date)+(item.mileage?" · "+safeText(item.mileage)+" miles":"")+'</small><div>'+safeText(item.note).replace(/\n/g,"<br>")+'</div></div>').join(""):'<p class="sub">No records saved yet.</p>';
+  updateStats();
+}
+$("saveNotes").addEventListener("click",()=>{
+  const note=$("notes").value.trim();
+  if(!note){$("notesStatus").textContent="Enter a note before saving.";return}
+  const items=getHistory();items.push({type:$("noteType").value,vehicle:read(STORAGE.vehicle,"Not specified"),mileage:read(STORAGE.mileage,""),date:new Date().toLocaleString(),note});
+  setHistory(items);write(STORAGE.notes,note);$("notesStatus").textContent="Record saved on this device.";renderHistory();
+});
+$("deleteHistory").addEventListener("click",()=>{
+  if(!confirm("Delete all saved repair-history records from this browser? This cannot be undone."))return;
+  setHistory([]);renderHistory();
+});
+$("exportData").addEventListener("click",()=>{
+  const backup={vehicle:read(STORAGE.vehicle),engine:read(STORAGE.engine),mileage:read(STORAGE.mileage),notes:read(STORAGE.notes),history:getHistory()};
+  const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="garage-brain-backup.json";a.click();URL.revokeObjectURL(url);
+});
+loadProfile();renderHistory();updateStats();
 </script>
-
 </body>
 </html>
-
