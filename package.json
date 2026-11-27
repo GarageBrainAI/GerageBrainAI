@@ -4,7 +4,7 @@
   "private": true,
   "description": "Garage Brain AI Android application",
   "scripts": {
-    "build": "node scripts/build-web.mjs"
+    "build": "node Scripts/Build-web.mjs"
   },
   "dependencies": {
     "@capacitor/core": "^8.0.0",
