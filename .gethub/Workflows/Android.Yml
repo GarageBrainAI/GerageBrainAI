@@ -14,8 +14,8 @@ jobs:
         with:
           repository: GarageBrainAI/GerageBrainAI
           ref: Androidapp-build
-          fetch-depth: 0  
-     
+          fetch-depth: 0
+
       - name: Show repository files
         run: |
           pwd
@@ -31,10 +31,10 @@ jobs:
         run: npm install
 
       - name: Build web files
-        run: node .github/Scripts/Build-web.mjs
+        run: node Scripts/Build-web.mjs
 
       - name: Install Capacitor Android
-        run: npx cap sync Android
+        run: npx cap sync android
 
       - name: Set up Java
         uses: actions/setup-java@v4
@@ -49,9 +49,7 @@ jobs:
           ./gradlew assembleDebug
 
       - name: Upload APK
-        uses: 
-actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           name: garage-brain-ai-apk
           path: Android/app/build/outputs/apk/debug/app-debug.apk
- 
