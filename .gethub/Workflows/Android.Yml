@@ -21,7 +21,7 @@ jobs:
         run: npm install
 
       - name: Build web files
-        run: node scripts/Build-web.mjs
+        run: node Scripts/Build-web.mjs
 
       - name: Install Capacitor Android
         run: npx cap sync Android
