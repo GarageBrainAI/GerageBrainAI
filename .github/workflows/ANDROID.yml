@@ -38,7 +38,7 @@ jobs:
 
       - name: Build Android APK
         run: |
-          cd android
+          cd Android
           chmod +x gradlew
           ./gradlew assembleDebug
 
