@@ -25,7 +25,7 @@ jobs:
         run: npm install
 
       - name: Build web files
-        run: node Scripts/Build-web.mjs
+        run: node Scripts/build-web.mjs
 
       - name: Install Capacitor Android
         run: npx cap sync Android
@@ -46,4 +46,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: garage-brain-ai-apk
-          path: Android/app/build/outputs/apk/debug/app-debug.apk
+          path: Android/app/Build/outputs/apk/debug/app-debug.apk
